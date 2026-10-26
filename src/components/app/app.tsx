@@ -9,7 +9,7 @@ import { Article } from '../article/Article';
 import type { ArticleStateType } from '@/constants/articleProps.ts';
 import type { CSSProperties } from 'react';
 
-import styles from './app.module.scss';
+import styles from './index.module.scss';
 
 type ArticleStyleProperties = CSSProperties & Record<`--${string}`, string>;
 
