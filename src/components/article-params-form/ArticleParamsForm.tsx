@@ -11,6 +11,7 @@ import { Button } from '@/ui/button';
 import { RadioGroup } from '@/ui/radio-group';
 import { Select } from '@/ui/select';
 import { useOutsideClickClose } from '@/ui/select/hooks/useOutsideClickClose';
+import { Separator } from '@/ui/separator';
 import { Text } from '@/ui/text';
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
@@ -91,7 +92,7 @@ export const ArticleParamsForm = ({
               selected={formState.fontColor}
               onChange={updateSetting('fontColor')}
             />
-            <div className={styles.separator} />
+            <Separator />
             <Select
               title="Цвет фона"
               options={backgroundColors}
