@@ -6,15 +6,15 @@ import {
   fontFamilyOptions,
   fontSizeOptions,
 } from '@/constants/articleProps.ts';
+import { useCloseOnOutsideClickOrEscape } from '@/hooks/useCloseOnOutsideClickOrEscape';
 import { ArrowButton } from '@/ui/arrow-button';
 import { Button } from '@/ui/button';
 import { RadioGroup } from '@/ui/radio-group';
 import { Select } from '@/ui/select';
-import { useOutsideClickClose } from '@/ui/select/hooks/useOutsideClickClose';
 import { Separator } from '@/ui/separator';
 import { Text } from '@/ui/text';
 import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import type { ArticleStateType, OptionType } from '@/constants/articleProps.ts';
 
@@ -28,17 +28,21 @@ export const ArticleParamsForm = ({
   onApply,
 }: ArticleParamsFormProps): React.JSX.Element => {
   const [formState, setFormState] = useState<ArticleStateType>(defaultArticleState);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClickClose({
-    isOpen,
+  const closeSidebar = useCallback((): void => {
+    setIsSidebarOpen(false);
+  }, []);
+
+  useCloseOnOutsideClickOrEscape({
+    isActive: isSidebarOpen,
     rootRef,
-    onChange: setIsOpen,
+    onClose: closeSidebar,
   });
 
   const handleArrowClick = (): void => {
-    setIsOpen((isFormOpen) => !isFormOpen);
+    setIsSidebarOpen((isCurrentlyOpen) => !isCurrentlyOpen);
   };
 
   const updateSetting =
@@ -63,10 +67,12 @@ export const ArticleParamsForm = ({
 
   return (
     <div ref={rootRef}>
-      <ArrowButton isOpen={isOpen} onClick={handleArrowClick} />
+      <ArrowButton isOpen={isSidebarOpen} onClick={handleArrowClick} />
       <aside
-        className={clsx(styles.container, { [styles.container_open]: isOpen })}
-        aria-hidden={!isOpen}
+        className={clsx(styles.container, {
+          [styles.container_open]: isSidebarOpen,
+        })}
+        aria-hidden={!isSidebarOpen}
       >
         <form className={styles.form} onSubmit={handleSubmit} onReset={handleReset}>
           <Text as="h2" size={31} weight={800} uppercase>
