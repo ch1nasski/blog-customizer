@@ -68,7 +68,7 @@ export const ArticleParamsForm = ({
         aria-hidden={!isOpen}
       >
         <form className={styles.form} onSubmit={handleSubmit} onReset={handleReset}>
-          <Text as="h1" size={31} weight={800} uppercase>
+          <Text as="h2" size={31} weight={800} uppercase>
             Задайте параметры
           </Text>
           <div className={styles.settings}>
